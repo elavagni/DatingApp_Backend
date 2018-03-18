@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
+using DatingApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,9 +31,34 @@ namespace DatingApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
-            var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
+            //var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
+
+            Document value = new Draft();
+            switch(value)
+            {
+                case Bill billHR when (billHR.Type == "HR" ):
+                    Log("HR Bill detected");
+                    break;
+                case Bill bill:
+                 Log("Bill detected");
+                    break;
+                case Draft draft:
+                 Log("Draft detected");
+                    break;
+                case Document doc:
+                 Log("Document detected");
+                    break;
+                default:
+                     Log("Different type of document detected");
+                    break;
+                case null:
+                    throw new ArgumentNullException(nameof(value));
+            }
+
             return Ok(value); 
         }
+
+        private void Log(string messega){}
 
         // POST api/values
         [HttpPost]
