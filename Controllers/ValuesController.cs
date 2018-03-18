@@ -23,42 +23,19 @@ namespace DatingApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
-           var values = await _context.Values.ToListAsync();
-           return Ok(values);
+            var values = await _context.Values.ToListAsync();
+            return Ok(values);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
-            //var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
-
-            Document value = new Draft();
-            switch(value)
-            {
-                case Bill billHR when (billHR.Type == "HR" ):
-                    Log("HR Bill detected");
-                    break;
-                case Bill bill:
-                 Log("Bill detected");
-                    break;
-                case Draft draft:
-                 Log("Draft detected");
-                    break;
-                case Document doc:
-                 Log("Document detected");
-                    break;
-                default:
-                     Log("Different type of document detected");
-                    break;
-                case null:
-                    throw new ArgumentNullException(nameof(value));
-            }
-
-            return Ok(value); 
+            var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(value);
         }
 
-        private void Log(string messega){}
+        private void Log(string messega) { }
 
         // POST api/values
         [HttpPost]
@@ -77,5 +54,52 @@ namespace DatingApp.API.Controllers
         public void Delete(int id)
         {
         }
+
+        private void TestingIf()
+        {
+            Document doc = new Draft();
+
+            //before 
+            var draft = doc as Draft;
+            if (draft != null)
+            {
+                //do stuff
+            }
+
+            //now
+            if (doc is Draft draft1)
+            {
+                //do stuff
+            }
+        }
+
+        private void TestingSwitch()
+        {
+            Document document = new Draft();
+            switch (document)
+            {
+                case Bill billHR when (billHR.Type == "HR"):
+                    Log("HR Bill detected");
+                    break;
+                case Bill bill:
+                    Log("Bill detected");
+                    break;
+                case Draft draft:
+                    Log("Draft detected");
+                    break;
+                case Document doc:
+                    Log("Document detected");
+                    break;
+                default:
+                    Log("Different type of document detected");
+                    break;
+                case null:
+                    throw new ArgumentNullException(nameof(document));
+            }
+        }
+
     }
 }
+
+
+
