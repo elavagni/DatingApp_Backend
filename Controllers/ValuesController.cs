@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class ValuesController : Controller
-    {
+    {        
         private readonly DataContext _context;
 
         public ValuesController(DataContext context)
@@ -55,26 +55,9 @@ namespace DatingApp.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
+        }       
 
-        private void TestingIf()
-        {
-            Document doc = new Draft();
-
-            //before 
-            var draft = doc as Draft;
-            if (draft != null)
-            {
-                //do stuff
-            }
-
-            //now
-            if (doc is Draft draft1)
-            {
-                //do stuff
-            }
-        }
-
+        #region C7 features
         private void TestingSwitch()
         {
             Document document = new Draft();
@@ -99,6 +82,24 @@ namespace DatingApp.API.Controllers
                     throw new ArgumentNullException(nameof(document));
             }
         }
+        private void TestingIf()
+        {
+            Document doc = new Draft();
+
+            //before 
+            var draft = doc as Draft;
+            if (draft != null)
+            {
+                //do stuff
+            }
+
+            //now
+            if (doc is Draft draft1)
+            {
+                //do stuff
+            }
+        }
+        #endregion
 
     }
 }
