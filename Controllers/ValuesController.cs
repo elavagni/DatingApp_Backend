@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
 using DatingApp.API.Models;
+using DatingApp.API.Models.C7;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,8 +56,8 @@ namespace DatingApp.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }       
-
+        }
+        
         #region C7 features
         private void TestingSwitch()
         {
@@ -100,9 +101,5 @@ namespace DatingApp.API.Controllers
             }
         }
         #endregion
-
     }
 }
-
-
-
