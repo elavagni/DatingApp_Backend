@@ -20,7 +20,7 @@ namespace DatingApp.API.DTOs
         public DateTime Created {set;get;}         
          public DateTime LastActive {set;get;}        
          public string PhotoUrl {set;get;}
-         public ICollection<Photo> Photos {set;get;}
+         public ICollection<PhotoForDetailDto> Photos {set;get;}
       
     }
 }
