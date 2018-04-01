@@ -14,7 +14,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/women/79.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Nulla officia pariatur esse enim magna culpa consequat et in eu officia excepteur deserunt reprehenderit."
       }
     ]
@@ -34,7 +34,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/women/11.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Esse nisi et aliqua eu magna tempor ad incididunt ipsum."
       }
     ]
@@ -54,7 +54,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/women/58.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Fugiat enim veniam eu anim adipisicing adipisicing ipsum commodo excepteur velit est dolor nulla non."
       }
     ]
@@ -74,7 +74,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/women/43.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Nisi aute sit consequat ex reprehenderit in velit ut sit ad dolor."
       }
     ]
@@ -94,7 +94,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/women/81.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Incididunt in quis irure tempor dolor reprehenderit mollit voluptate."
       }
     ]
@@ -114,7 +114,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/men/38.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Eiusmod do consectetur ex nulla esse pariatur in dolore ad Lorem."
       }
     ]
@@ -134,7 +134,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/men/24.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Ea elit ad qui duis aliquip occaecat et nostrud excepteur mollit ad adipisicing."
       }
     ]
@@ -154,7 +154,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/men/65.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Mollit ullamco eiusmod sunt proident ad ipsum enim aliqua minim adipisicing minim laborum."
       }
     ]
@@ -174,7 +174,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/men/38.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Esse ea officia non esse voluptate commodo ad laborum et."
       }
     ]
@@ -194,7 +194,7 @@
     "Photos": [
       {
         "url": "https://randomuser.me/api/portraits/men/59.jpg",
-        "isMain": true,
+        "isMainPhoto": true,
         "description": "Reprehenderit irure deserunt quis cupidatat cillum culpa nisi occaecat cupidatat nulla quis officia deserunt."
       }
     ]
