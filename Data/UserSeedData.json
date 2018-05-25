@@ -2,7 +2,7 @@
   {
     "Username": "Araceli",
     "Gender": "female",
-    "DateOfBirth": "1980-01-02",
+    "DateOfBirthDay": "1980-01-02",
     "Password": "password",
     "KnownAs": "Araceli",
     "Created": "2017-03-01",
@@ -23,7 +23,7 @@
   {
     "Username": "Augusta",
     "Gender": "female",
-    "DateOfBirth": "1998-02-03",   
+    "DateOfBirthDay": "1998-02-03",   
     "Password": "password",
     "KnownAs": "Augusta",
     "Created": "2017-04-25",
@@ -44,7 +44,7 @@
   {
     "Username": "Celia",
     "Gender": "female",
-    "DateOfBirth": "1990-12-13",
+    "DateOfBirthDay": "1990-12-13",
     "Created": "2017-01-11",
     "LastActive": "2017-01-11",
     "Password": "password",
@@ -65,7 +65,7 @@
   {
     "Username": "Evangelina",
     "Gender": "female",
-    "DateOfBirth": "1981-06-27",
+    "DateOfBirthDay": "1981-06-27",
     "Created": "2017-11-02",
     "LastActive": "2017-11-02",
     "Password": "password",
@@ -86,7 +86,7 @@
   {
     "Username": "Gretchen",
     "Gender": "female",
-    "DateOfBirth": "1963-12-11",
+    "DateOfBirthDay": "1963-12-11",
     "Password": "password",
     "KnownAs": "Gretchen",
     "Created": "2017-01-26",
@@ -107,7 +107,7 @@
   {
     "Username": "Watkins",
     "Gender": "male",
-    "DateOfBirth": "1974-07-09",
+    "DateOfBirthDay": "1974-07-09",
     "Password": "password",
     "KnownAs": "Watkins",
     "Created": "2017-08-14",
@@ -128,7 +128,7 @@
   {
     "Username": "Oneal",
     "Gender": "male",
-    "DateOfBirth": "1998-12-11",
+    "DateOfBirthDay": "1998-12-11",
     "Password": "password",
     "KnownAs": "Oneal",
     "Created": "2017-07-31",
@@ -149,7 +149,7 @@
   {
     "Username": "Stark",
     "Gender": "male",
-    "DateOfBirth": "1998-03-30",
+    "DateOfBirthDay": "1998-03-30",
     "Password": "password",
     "KnownAs": "Stark",
     "Created": "2017-06-08",
@@ -170,7 +170,7 @@
   {
     "Username": "Hubbard",
     "Gender": "male",
-    "DateOfBirth": "1961-10-14",
+    "DateOfBirthDay": "1961-10-14",
     "Password": "password",
     "KnownAs": "Hubbard",
     "Created": "2017-02-01",
@@ -191,7 +191,7 @@
   {
     "Username": "Armstrong",
     "Gender": "male",
-    "DateOfBirth": "1990-05-18",
+    "DateOfBirthDay": "1990-05-18",
     "Password": "password",
     "KnownAs": "Armstrong",
     "Created": "2017-03-23",
