@@ -84,16 +84,16 @@ namespace DatingApp.API
                 });
             }
            //seeder.SeedUsers();
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseAuthentication();
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseStaticFiles();         
             app.UseMvc(routes => {
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
                     defaults: new {controller = "Fallback", Action= "Index"}
                 );
-            });
+            });            
         }
     }
 }
