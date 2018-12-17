@@ -49,7 +49,7 @@ namespace DatingApp.API.Controllers
             
             var messageFromRepo = await _repo.GetMessageThread(userId, id);
 
-            messageFromRepo = messageFromRepo.OrderBy(x => x.MessageSent);
+            //messageFromRepo = messageFromRepo.OrderBy(x => x.MessageSent);
 
             var messageThread = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo);
 
@@ -66,7 +66,7 @@ namespace DatingApp.API.Controllers
 
             var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
-            Response.AddPagination(messagesFromRepo.PageSize,messagesFromRepo.CurrentPage, 
+            Response.AddPagination(messagesFromRepo.CurrentPage,messagesFromRepo.PageSize, 
                                    messagesFromRepo.TotalCount, messagesFromRepo.TotalPages);
             
             return Ok(messages);
