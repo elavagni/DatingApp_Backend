@@ -20,10 +20,14 @@ namespace DatingApp.API.Models
         public string Interest {set;get;}
         public DateTime DateOfBirthDay {set;get;}
         public DateTime Created {set;get;}         
-         public DateTime LastActive {set;get;}
+        public DateTime LastActive {set;get;}
 
         
-         public ICollection<Photo> Photos {set;get;}
+        public ICollection<Photo> Photos {set;get;}
+        public ICollection<Like> Liker {set;get;}
+        public ICollection<Like> Likee {set;get;}
+        public ICollection<Message> MessageSent {set;get;}
+        public ICollection<Message> MessageReceived {set;get;}
 
         public User() => Photos = new Collection<Photo>();
     }
