@@ -14,7 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 namespace DatingApp.API.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    [ApiController]
+    public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
@@ -30,7 +31,7 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto )
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto )
         {
             if(!string.IsNullOrWhiteSpace(userForRegisterDto.UserName))   
             {
@@ -41,12 +42,7 @@ namespace DatingApp.API.Controllers
             {
                 ModelState.AddModelError("UserName", "UserName already exists");
             }
-          
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            
-
+         
             if(await _repo.UserExists(userForRegisterDto.UserName))
             {
                 return BadRequest("Username is already taken"); 
@@ -63,7 +59,7 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
+        public async Task<IActionResult> Login(   UserForLoginDto userForLoginDto)
         {
             User userFromRepo = await _repo.Login(userForLoginDto.UserName, userForLoginDto.Password);
 

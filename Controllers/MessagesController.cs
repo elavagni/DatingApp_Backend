@@ -15,9 +15,10 @@ using System.Linq;
 namespace DatingApp.API.Controllers
 {
     [Authorize]
+    [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/users/{userId}/[controller]")]
-    public class MessagesController : Controller
+    public class MessagesController : ControllerBase
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
