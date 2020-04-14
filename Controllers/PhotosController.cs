@@ -39,7 +39,7 @@ namespace DatingApp.API.Controllers
             _cloudinary = new Cloudinary(acc);
         }
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userId, PhotoForCreationDto photoDto)
+        public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm] PhotoForCreationDto photoDto)
         {
             var user =  await _repo.GetUser(userId);
 
