@@ -19,6 +19,8 @@ namespace DatingApp.API
 {
     public class Startup
     {
+        readonly string _allowLocalHostOrigin = "allowLocalHostOrigin";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,18 @@ namespace DatingApp.API
         {
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _allowLocalHostOrigin,
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://localhost:4200")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();                                                 
+                              });
+            });
+            
             services.AddControllers()
                 .AddNewtonsoftJson(opt => 
                 {
@@ -39,7 +53,6 @@ namespace DatingApp.API
                 });
            
             services.AddTransient<Seed>();
-            services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository,AuthRepository>();
@@ -80,11 +93,11 @@ namespace DatingApp.API
                    });            
                 });
             }
-
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseAuthentication();
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(_allowLocalHostOrigin);
+            app.UseAuthentication();            
+            app.UseAuthorization();           
+            
             
             app.UseDefaultFiles();
             app.UseStaticFiles();         
