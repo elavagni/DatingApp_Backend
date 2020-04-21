@@ -58,16 +58,16 @@ namespace DatingApp.API.Data
             if (userParams.LikesReceived)
             {
                 //Get the likes the user has received
-                var userLikers = await GetUserLikes(userParams.UserId, true);
+                var userLikerIds = await GetUserIdsByLikeType(userParams.UserId, true);
                 //Get the users that have liked the current user
-                users = users.Where(u => userLikers.Any(liker => liker.LikerId == u.Id));
+                users = users.Where(u => userLikerIds.Contains(u.Id));
             }
             if (userParams.LikesGiven)
             {
                 //Get the likes the user has given
-                var userLikees = await GetUserLikes(userParams.UserId, false);
+                var userLikeeIds = await GetUserIdsByLikeType(userParams.UserId, false);
                 //Get the users that the current user has liked
-                users = users.Where(u => userLikees.Any(likee => likee.LikeeId == u.Id));
+                users = users.Where(u => userLikeeIds.Contains(u.Id));
             }
 
             if (userParams.MinAge != 18 || userParams.MaxAge != 99)
@@ -92,7 +92,7 @@ namespace DatingApp.API.Data
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
-        private async Task<IEnumerable<Like>> GetUserLikes(int id, bool likesReceived)
+        private async Task<IEnumerable<int>> GetUserIdsByLikeType(int id, bool likesReceived)
         {
             var user = await _context.Users
                     .Include(x => x.LikesReceived)
@@ -101,11 +101,11 @@ namespace DatingApp.API.Data
 
             if (likesReceived)
             {
-                return user.LikesReceived;
+                return user.LikesReceived.Select(x=> x.LikerId);
             }
             else
             {
-                return user.LikesGiven;
+                return user.LikesGiven.Select(x=> x.LikeeId);
             }
         }
 
