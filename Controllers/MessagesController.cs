@@ -15,9 +15,10 @@ using System.Linq;
 namespace DatingApp.API.Controllers
 {
     [Authorize]
+    [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/users/{userId}/[controller]")]
-    public class MessagesController : Controller
+    public class MessagesController : ControllerBase
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
@@ -57,11 +58,13 @@ namespace DatingApp.API.Controllers
          }
 
         [HttpGet]
-        public async Task<IActionResult> GetMesssageForUser(int userId, MessageParams messageParams)
+        public async Task<IActionResult> GetMesssageForUser(int userId, [FromQuery] MessageParams messageParams)
         {
             if(userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
             
+            messageParams.UserId = userId;
+
             var messagesFromRepo = await _repo.GetMessagesForUser(messageParams);
 
             var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
@@ -94,7 +97,7 @@ namespace DatingApp.API.Controllers
             var messageToReturn = _mapper.Map<MessageToReturnDto>(message);
 
             if(await _repo.SaveAll())
-                return CreatedAtRoute("GetMessage", new {id = message.Id}, messageToReturn);
+                return CreatedAtRoute("GetMessage", new {userId, id = message.Id}, messageToReturn);
             
             throw new Exception("Creating the message failed on save");
             

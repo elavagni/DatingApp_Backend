@@ -13,7 +13,8 @@ namespace DatingApp.API.Controllers
 {
     [AllowAnonymous]
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [ApiController]
+    public class ValuesController : ControllerBase
     {        
         private readonly DataContext _context;
 
@@ -79,8 +80,6 @@ namespace DatingApp.API.Controllers
                 default:
                     Log("Different type of document detected");
                     break;
-                case null:
-                    throw new ArgumentNullException(nameof(document));
             }
         }
         private void TestingIf()
