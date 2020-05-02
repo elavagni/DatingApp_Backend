@@ -11,7 +11,7 @@ namespace DatingApp.API.Models
         public bool IsMainPhoto {set;get;}     
         public string PublicId {set;get;}
 
-        public User User {set; get;}
+        public virtual User User {set; get;}
         public int UserId {set;get;}  
     }
 }

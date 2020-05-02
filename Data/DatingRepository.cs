@@ -43,13 +43,13 @@ namespace DatingApp.API.Data
 
         public async Task<User> GetUser(int Id)
         {
-            var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == Id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
             return user;
         }
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+            var users = _context.Users.OrderByDescending(u => u.LastActive).AsQueryable();
 
             users = users.Where(u => u.Id != userParams.UserId);
 
@@ -94,10 +94,7 @@ namespace DatingApp.API.Data
 
         private async Task<IEnumerable<int>> GetUserIdsByLikeType(int id, bool likesReceived)
         {
-            var user = await _context.Users
-                    .Include(x => x.LikesReceived)
-                    .Include(x => x.LikesGiven)
-                    .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             if (likesReceived)
             {
@@ -120,10 +117,7 @@ namespace DatingApp.API.Data
         }
         public Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
-            var messages = _context.Messages
-                .Include(u => u.Sender).ThenInclude(p => p.Photos)
-                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-                .AsQueryable();
+            var messages = _context.Messages.AsQueryable();
 
             switch (messageParams.MessageContainer)
             {
@@ -145,9 +139,7 @@ namespace DatingApp.API.Data
 
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
         {
-             var messages = await _context.Messages
-                .Include(u => u.Sender).ThenInclude(p => p.Photos)
-                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+             var messages = await _context.Messages               
                 .Where(m => (m.RecipientId == userId && m.RecipientDeleted == false && m.SenderId == recipientId ) 
                    || (m.RecipientId == recipientId && m.SenderId == userId && m.SenderDeleted == false))
                 .OrderByDescending(m => m.MessageSent)

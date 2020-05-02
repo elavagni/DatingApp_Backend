@@ -23,11 +23,11 @@ namespace DatingApp.API.Models
         public DateTime LastActive {set;get;}
 
         
-        public ICollection<Photo> Photos {set;get;}
-        public ICollection<Like> LikesGiven {set;get;}
-        public ICollection<Like> LikesReceived {set;get;}
-        public ICollection<Message> MessageSent {set;get;}
-        public ICollection<Message> MessageReceived {set;get;}
+        public virtual ICollection<Photo> Photos {set;get;}
+        public virtual ICollection<Like> LikesGiven {set;get;}
+        public virtual ICollection<Like> LikesReceived {set;get;}
+        public virtual ICollection<Message> MessageSent {set;get;}
+        public virtual ICollection<Message> MessageReceived {set;get;}
 
         public User() => Photos = new Collection<Photo>();
     }
