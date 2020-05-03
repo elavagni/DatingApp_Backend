@@ -4,3 +4,4 @@ obj
 *.db
 *.db-journal
 appsettings.json
+wwwroot
