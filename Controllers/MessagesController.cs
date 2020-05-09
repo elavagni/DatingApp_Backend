@@ -13,8 +13,7 @@ using System.Collections;
 using System.Linq;
 
 namespace DatingApp.API.Controllers
-{
-    [Authorize]
+{    
     [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/users/{userId}/[controller]")]

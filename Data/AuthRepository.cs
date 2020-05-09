@@ -22,8 +22,9 @@ namespace DatingApp.API.Data
             {
                 return null;
             }
-            if(!VerifyPasswordHash(password,user.PasswordHash, user.PasswordSalt))
-                return null;
+            //Since we are using Identity now, we are not going to be validating passwords anymore
+            // if(!VerifyPasswordHash(password,user.PasswordHash, user.PasswordSalt))
+            //     return null;
 
             //Auth succesfull
             return user;    
@@ -47,8 +48,8 @@ namespace DatingApp.API.Data
             byte[] passwordHash, paswordSalt;            
             CreatePasswordHash(password,out passwordHash,out paswordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = paswordSalt;
+            // user.PasswordHash = passwordHash;
+            // user.PasswordSalt = paswordSalt;
 
             await _context.Users.AddAsync(user); 
             await _context.SaveChangesAsync();
