@@ -3,12 +3,15 @@ using System.Text;
 using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Helpers;
+using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,7 +52,39 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Allow weak passwords during development mode, remove this whenever the application is ready for Prod
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt => {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            });
+
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+              builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
+
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(Options => {
+                    Options.TokenValidationParameters = new  Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });     
+
+            services.AddAuthorization(opt => {
+               opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+               opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin"));
+               opt.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            });
+            
             services.AddCors(options =>
             {
                 options.AddPolicy(name: _allowLocalHostOrigin,
@@ -60,29 +95,27 @@ namespace DatingApp.API
                                                   .AllowAnyMethod();                                                 
                               });
             });
-            
-            services.AddControllers()
-                .AddNewtonsoftJson(opt => 
-                {
-                    opt.SerializerSettings.ReferenceLoopHandling = 
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                });
+
+                        
+            services.AddControllers(options => 
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddNewtonsoftJson(opt => 
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = 
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
            
             services.AddTransient<Seed>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
-            services.AddScoped<IAuthRepository,AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(Options => {
-                    Options.TokenValidationParameters = new  Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
+            
             services.AddScoped<LogUserActivity>();
         }
 
