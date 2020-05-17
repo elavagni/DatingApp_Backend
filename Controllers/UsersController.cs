@@ -30,7 +30,7 @@ namespace DatingApp.API.Controllers
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var userFromRepo = await _repo.GetUser(currentUserId);
+            var userFromRepo = await _repo.GetUser(currentUserId, true);
 
             userParams.UserId = currentUserId;
 
@@ -50,7 +50,10 @@ namespace DatingApp.API.Controllers
         [HttpGet("{Id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int Id)
         {
-            var user = await _repo.GetUser(Id);
+             //logged user making the request
+            var isRequestorLoggedUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == Id;
+
+            var user = await _repo.GetUser(Id, isRequestorLoggedUser);
 
             var userToReturn = _mapper.Map<UserForDetailDto>(user);
 
@@ -65,7 +68,7 @@ namespace DatingApp.API.Controllers
 
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var userFromRepo = await _repo.GetUser(id);
+            var userFromRepo = await _repo.GetUser(id,true);
 
             if (userFromRepo == null)
                 return NotFound($"Could not find user with ID: {id}");
@@ -95,7 +98,7 @@ namespace DatingApp.API.Controllers
                 return BadRequest("You already like this user");
             
 
-            if(await _repo.GetUser(recipientId)== null)
+            if(await _repo.GetUser(recipientId, false)== null)
                 return NotFound();
             
             like = new Like 

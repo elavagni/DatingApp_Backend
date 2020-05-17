@@ -35,15 +35,21 @@ namespace DatingApp.API.Data
             return await _context.Photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(p => p.IsMainPhoto);
         }
 
-        public Task<Photo> GetPhoto(int Id)
+        public async Task<Photo> GetPhoto(int Id)
         {
-            var photo = _context.Photos.FirstOrDefaultAsync(p => p.Id == Id);
+            var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == Id);
             return photo;
         }
 
-        public async Task<User> GetUser(int Id)
+        public async Task<User> GetUser(int Id, bool isRequestorLoggedUser)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
+            var query = _context.Users.AsQueryable();
+
+            if (isRequestorLoggedUser) 
+                await query.IgnoreQueryFilters().ToListAsync();
+            
+            var user = await query.FirstOrDefaultAsync(u => u.Id == Id);
+
             return user;
         }
 
@@ -108,14 +114,15 @@ namespace DatingApp.API.Data
 
         public async Task<bool> SaveAll()
         {
-            return await _context.SaveChangesAsync() > 0;
+            int result =  await _context.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<Message> GetMessage(int messageId)
         {
             return await _context.Messages.FirstOrDefaultAsync(m => m.Id == messageId);
         }
-        public Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
+        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
             var messages = _context.Messages.AsQueryable();
 
@@ -134,7 +141,7 @@ namespace DatingApp.API.Data
             }
 
             messages = messages.OrderByDescending(d => d.MessageSent);
-            return PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+            return await PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)

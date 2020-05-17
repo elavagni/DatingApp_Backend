@@ -41,7 +41,7 @@ namespace DatingApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm] PhotoForCreationDto photoDto)
         {
-            var user =  await _repo.GetUser(userId);
+            var user =  await _repo.GetUser(userId,true);
 
             if(user == null)
                 return BadRequest("Could not find user");
@@ -138,17 +138,28 @@ namespace DatingApp.API.Controllers
             if(photoFromRepo.IsMainPhoto)
                 return BadRequest("You cannot delete the main photo");
 
-           var deleteParams = new DeletionParams(photoFromRepo.PublicId);
 
-           var result = _cloudinary.Destroy(deleteParams);
+            //If publicId is null the photo is not in Cloudinary, it is just seed data
+            if (photoFromRepo.PublicId != null)
+            {
+                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+                var result = _cloudinary.Destroy(deleteParams);
 
-           if (result.Result == "ok")           
-               _repo.Delete(photoFromRepo);
+                if (result.Result == "ok")
+                {
+                    _repo.Delete(photoFromRepo);
+                }
+            }
 
-           if (photoFromRepo.PublicId == null)           
-               _repo.Delete(photoFromRepo);
+            //Delete the photo even if it is not in cloudinary
+            if (photoFromRepo.PublicId == null)
+            {
+                _repo.Delete(photoFromRepo);
+            }
 
-           if(await _repo.SaveAll())           
+            var sucess = await _repo.SaveAll();
+
+           if(sucess)           
                return Ok();
            
            return BadRequest("Fail to delete the photo");

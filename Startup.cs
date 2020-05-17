@@ -81,7 +81,7 @@ namespace DatingApp.API
 
             services.AddAuthorization(opt => {
                opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
-               opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin"));
+               opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
                opt.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
             });
             

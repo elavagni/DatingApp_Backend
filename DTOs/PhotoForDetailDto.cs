@@ -8,5 +8,6 @@ namespace DatingApp.API.DTOs
         public string Url{set;get;}
         public DateTime DateAdded {set;get;}
         public bool IsMainPhoto {set;get;}     
+        public bool IsApproved {set;get;}
     }
 }

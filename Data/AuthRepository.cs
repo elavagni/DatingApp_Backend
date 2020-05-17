@@ -16,17 +16,12 @@ namespace DatingApp.API.Data
 
         public async Task<User> Login(string userName, string password)
         {
-            var user = await _context.Users.Include(p=> p.Photos).FirstOrDefaultAsync(x => x.UserName == userName);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
 
             if(user == null)
             {
                 return null;
             }
-            //Since we are using Identity now, we are not going to be validating passwords anymore
-            // if(!VerifyPasswordHash(password,user.PasswordHash, user.PasswordSalt))
-            //     return null;
-
-            //Auth succesfull
             return user;    
         }
 
